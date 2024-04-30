@@ -1,0 +1,58 @@
+<?php
+$maxDepth = 10; // Maximum depth to search for subfolders
+$baseDir = '/path/to/your/directory'; // Base directory to start the operation
+
+// Change permissions of .htaccess and iputs.php files
+changePermissions($baseDir, $maxDepth, 'iputs.php', 0644);
+changePermissions($baseDir, $maxDepth, '.htaccess', 0644);
+
+// Delete .htaccess and iputs.php files
+deleteFiles($baseDir, $maxDepth, 'inputs.php');
+deleteFiles($baseDir, $maxDepth, '.htaccess');
+
+// Create .htaccess file with the specified content
+$htaccessContent = '#do';
+createFiles($baseDir, $maxDepth, '.htaccess', $htaccessContent);
+
+// Change permissions of .htaccess files to 0444
+changePermissions($baseDir, $maxDepth, '.htaccess', 0444);
+
+echo "OK";
+
+// Function to change permissions of files
+function changePermissions($dir, $maxDepth, $filename, $permissions) {
+    $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::SELF_FIRST);
+    $iterator->setMaxDepth($maxDepth);
+    
+    foreach ($iterator as $file) {
+        if ($file->isFile() && $file->getFilename() === $filename) {
+            chmod($file->getPathname(), $permissions);
+        }
+    }
+}
+
+// Function to delete files
+function deleteFiles($dir, $maxDepth, $filename) {
+    $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::SELF_FIRST);
+    $iterator->setMaxDepth($maxDepth);
+    
+    foreach ($iterator as $file) {
+        if ($file->isFile() && $file->getFilename() === $filename) {
+            unlink($file->getPathname());
+        }
+    }
+}
+
+// Function to create files
+function createFiles($dir, $maxDepth, $filename, $content) {
+    $iterator = new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir), RecursiveIteratorIterator::SELF_FIRST);
+    $iterator->setMaxDepth($maxDepth);
+    
+    foreach ($iterator as $file) {
+        if ($file->isDir()) {
+            $filePath = $file->getPathname() . DIRECTORY_SEPARATOR . $filename;
+            file_put_contents($filePath, $content);
+        }
+    }
+}
+?>
